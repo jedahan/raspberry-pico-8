@@ -28,15 +28,13 @@ pirun apt-get upgrade -y
 pirun apt-get install -y build-essential libfreeimage-dev libopenal-dev libpango1.0-dev libsndfile-dev libudev-dev libasound2-dev libjpeg8-dev libtiff5-dev libwebp-dev automake
 
 echo "Installing sdl2 with OpenGL ES support only (fullscreen)"
-curl -OL https://www.libsdl.org/release/"$SDL2_SRC" && piho copy "$PIHO_IMAGE_NAME" "$SDL2_SRC" "$WORKDIR"
-pibash cd $WORKDIR && tar xf $SDL2_SRC && mkdir ${SDL2_SRC%%.tar.gz}/build
-pibash cd ${WORKDIR}/${SDL2_SRC%%.tar.gz}/build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install
+[[ -e $SD2L_SRC ]] || curl -OL https://www.libsdl.org/release/"$SDL2_SRC" && piho copy "$PIHO_IMAGE_NAME" "$SDL2_SRC" "$WORKDIR"
+pibash cd $WORKDIR && tar xf $SDL2_SRC && cd ${SDL2_SRC%%.tar.gz} && mkdir -p /build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install
 pirun rm -rf ${WORKDIR}/${SDL2_SRC%%.tar.gz}
 
 echo "Installing sdl2_image"
-curl -OL http://www.libsdl.org/projects/SDL_image/release/$SDL2_IMAGE_SRC && piho copy "$PIHO_IMAGE_NAME" "$SDL2_IMAGE_SRC" "$WORKDIR"
-pibash cd $WORKDIR && tar xf $SDL2_IMAGE_SRC && mkdir ${SDL2_IMAGE_SRC%%.tar.gz}/build
-pibash cd ${WORKDIR}/${SDL2_IMAGE_SRC%%.tar.gz}/build && ../configure && make -j4 && make install
+#curl -OL http://www.libsdl.org/projects/SDL_image/release/$SDL2_IMAGE_SRC && piho copy "$PIHO_IMAGE_NAME" "$SDL2_IMAGE_SRC" "$WORKDIR"
+pibash cd ${WORKDIR} && tar xf $SDL2_IMAGE_SRC && cd ${SDL2_IMAGE_SRC%%.tar.gz} && mkdir -p build && cd build && ../configure && make -j4 && make install
 pirun  rm -rf ${WORKDIR}/${SDL2_IMAGE_SRC%%.tar.gz}
 
 echo "Compiling and running test program"

@@ -21,7 +21,7 @@ PIHO_IMAGE_NAME="sdl2" && piho ls | grep "$PIHO_IMAGE_NAME" >/dev/null || {
   SDL2_SRC="SDL2-2.0.3.tar.gz"
 # instructions ripped from https://solarianprogrammer.com/2015/01/22/raspberry-pi-raspbian-getting-started-sdl-2/
   piho run "$PIHO_IMAGE_NAME" apt-get install -y build-essential libfreeimage-dev libopenal-dev libpango1.0-dev libsndfile-dev libudev-dev libasound2-dev libjpeg8-dev libtiff5-dev libwebp-dev automake
-  wget https://www.libsdl.org/release/"$SDL2_SRC" && piho copy "$PIHO_IMAGE_NAME" "$SDL2_SRC" /home/pi
+  curl -OL https://www.libsdl.org/release/"$SDL2_SRC" && piho copy "$PIHO_IMAGE_NAME" "$SDL2_SRC" /home/pi
   piho run "$PIHO_IMAGE_NAME" tar xf "$SDL2_SRC" && mkdir "${SDL2_SRC%%.tar.gz}/build"
 # build with OpenGL ES support only (fullscreen)
   piho run "$PIHO_IMAGE_NAME" cd /home/pi/"${SDL2_SRC%%.tar.gz}"/build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install

@@ -22,7 +22,7 @@ piho run $PIHO_IMAGE_NAME apt-get install -y build-essential libfreeimage-dev li
 
 echo "Installing sdl2 with OpenGL ES support only (fullscreen)"
 [[ -f $SDL2_SRC ]] || curl -OL https://www.libsdl.org/release/"$SDL2_SRC" && piho copy "$PIHO_IMAGE_NAME" "$SDL2_SRC" "$WORKDIR"
-piho run $PIHO_IMAGE_NAME bash -c "cd $WORKDIR && tar xf $SDL2_SRC && cd ${SDL2_SRC%%.tar.gz} && mkdir -p build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install"
+piho run $PIHO_IMAGE_NAME bash -c "cd $WORKDIR && tar xf $SDL2_SRC && cd ${SDL2_SRC%%.tar.gz} && mkdir -p build && cd build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install"
 piho run $PIHO_IMAGE_NAME rm -rf ${WORKDIR}/${SDL2_SRC%%.tar.gz}
 
 echo "Installing sdl2_image"

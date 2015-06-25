@@ -20,7 +20,7 @@ echo "Checking for and installing the latest version of piho"
 piho >/dev/null || bash <(curl https://piho.sh) && piho init
 
 echo "Creating a minimal raspbian image that can build from source"
-piho create "$PIHO_IMAGE_NAME"
+piho ls | grep $PIHO_IMAGE_NAME >/dev/null || piho create "$PIHO_IMAGE_NAME"
 pirun apt-get remove -y --purge scratch pypy-upstream sonic-pi freepats libraspberrypi-doc oracle-java8-jdk wolfram-engine
 pirun apt-get autoremove -y
 pirun apt-get update

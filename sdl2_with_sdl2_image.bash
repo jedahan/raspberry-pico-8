@@ -31,5 +31,5 @@ piho run $PIHO_IMAGE_NAME bash -c "cd ${WORKDIR} && tar xf $SDL2_IMAGE_SRC && cd
 piho run $PIHO_IMAGE_NAME rm -rf ${WORKDIR}/${SDL2_IMAGE_SRC%%.tar.gz}
 
 echo "Compiling and running test program"
-piho copy "$PIHO_IMAGE_NAME" sdl2_image_test.cpp img_test.png "$WORKDIR"
-piho run $PIHO_IMAGE_NAME bash -c "g++ -std=c++0x -Wall -pedantic ${WORKDIR}/sdl2_image_test.cpp -o sdl2_test `sdl2-config --cflags --libs` -lSDL2_image"
+piho copy "$PIHO_IMAGE_NAME" `pwd`/sdl2_image_test.cpp `pwd`/img_test.png "$WORKDIR"
+piho run $PIHO_IMAGE_NAME bash -c 'cd /home/pi && g++ -std=c++0x -Wall -pedantic sdl2_image_test.cpp -o sdl2_test `sdl2-config --cflags --libs` -lSDL2_image'

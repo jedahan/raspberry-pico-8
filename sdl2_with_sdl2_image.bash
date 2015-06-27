@@ -2,7 +2,7 @@
 set -e
 
 echo "You should read this script before running it"
-#exit 0
+exit 0
 
 PIHO_IMAGE_NAME="sdl2_with_sdl2_image"
 WORKDIR=/home/pi

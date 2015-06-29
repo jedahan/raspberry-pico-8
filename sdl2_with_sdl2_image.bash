@@ -33,11 +33,11 @@ piho ls | grep ^$image\$ >/dev/null && echo "[3/4] $image: found, skipping creat
   sdl2_image_src="SDL2_image-2.0.0.tar.gz"
   [[ -f $sdl2_image_src ]] || ( curl -OL http://www.libsdl.org/projects/SDL_image/release/$sdl2_image_src && piho copy "$image" "$sdl2_image_src" "$workdir" )
   piho run "$image" bash -c "cd ${workdir} && tar xf $sdl2_image_src && cd ${sdl2_image_src%%.tar.gz} && mkdir -p build && cd build && ../configure && make -j4 && make install"
-  piho run "$image" rm -rf ${workdir}/${sdl2_img_src%%.tar.gz}
+  piho run "$image" rm -rf "$workdir"/"${sdl2_image_src%%.tar.gz}"
 }
 
 image_old=$image; image="pico-8"
 echo "[4/4] $image: compiling program"
 piho rm "$image" && piho clone "$image_old" "$image"
-piho copy "$image" `pwd`/sdl2_image_test.cpp `pwd`/img_test.png "$workdir"
-piho run "$image" bash -c 'cd /home/pi && g++ -std=c++0x -Wall -pedantic sdl2_image_test.cpp -o sdl2_test $(sdl2-config --cflags --libs) -lSDL2_image'
+piho copy "$image" "$PWD"/sdl2_image_test.cpp "$PWD"/img_test.png "$workdir"
+piho run "$image" bash -c "cd /home/pi && g++ -std=c++0x -Wall -pedantic sdl2_image_test.cpp -o sdl2_test $(sdl2-config --cflags --libs) -lSDL2_image"

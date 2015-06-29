@@ -55,6 +55,7 @@ piho ls | grep -q ^$image\$ && echo "[3/5] $image: found, skipping creation" || 
 
 image_old=$image; image="pico8"
 echo "[5/5] $image: compiling program"
-piho rm "$image" && piho clone "$image_old" "$image"
+piho ls | grep -q ^$image\$ && piho rm "$image"
+piho clone "$image_old" "$image"
 piho copy "$image" "$PWD"/sdl2_image_test.cpp "$PWD"/img_test.png "$workdir"
 piho run "$image" bash -c "cd /home/pi && g++ -std=c++0x -Wall -pedantic sdl2_image_test.cpp -o sdl2_test $(sdl2-config --cflags --libs) -lSDL2_image"

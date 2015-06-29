@@ -16,7 +16,7 @@ piho ls | grep ^$image\$ >/dev/null && echo "[1/4] ${image}: found, skipping cre
   piho run "$image" apt-get install -y build-essential libfreeimage-dev libopenal-dev libpango1.0-dev libsndfile-dev libudev-dev libasound2-dev libjpeg8-dev libtiff5-dev libwebp-dev automake
 }
 
-image_old=$image && image="sdl2"
+image_old=$image; image="sdl2"
 piho ls | grep ^$image\$ >/dev/null && echo "[2/4] $image: found, skipping creation" || {
   echo "[2/4] $image: OpenGL ES-only version of SDL2 (v2.0.3)"
   piho clone "$image_old" "$image"
@@ -26,7 +26,7 @@ piho ls | grep ^$image\$ >/dev/null && echo "[2/4] $image: found, skipping creat
   piho run "$image" rm -rf ${workdir}/${sdl2_src%%.tar.gz}
 }
 
-image_old=$image && image="sdl2_image"
+image_old=$image; image="sdl2_image"
 piho ls | grep ^$image\$ >/dev/null && echo "[3/4] $image: found, skipping creation" || {
   echo "[3/4] $image: Adding sdl2_image"
   piho clone "$image_old" "$image"
@@ -36,7 +36,7 @@ piho ls | grep ^$image\$ >/dev/null && echo "[3/4] $image: found, skipping creat
   piho run "$image" rm -rf ${workdir}/${sdl2_img_src%%.tar.gz}
 }
 
-image_old=$image && image="pico-8"
+image_old=$image; image="pico-8"
 echo "[4/4] $image: compiling program"
 piho rm "$image" && piho clone "$old_image" "$image"
 piho copy "$image" `pwd`/sdl2_image_test.cpp `pwd`/img_test.png "$workdir"

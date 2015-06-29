@@ -21,7 +21,8 @@ piho ls | grep -q ^$image\$ && echo "[2/4] $image: found, skipping creation" || 
   echo "[2/4] $image: OpenGL ES-only version of SDL2 (v2.0.3)"
   piho clone "$image_old" "$image"
   sdl2_src="SDL2-2.0.3.tar.gz"
-  [[ -f $sdl2_src ]] || curl -OL https://www.libsdl.org/release/"$sdl2_src" && piho copy "$image" "$sdl2_src" "$workdir"
+  [[ -f $sdl2_src ]] || curl -OL https://www.libsdl.org/release/"$sdl2_src"
+  [[ -f $sdl2_src ]] && piho copy "$image" "$sdl2_src" "$workdir"
   piho run "$image" bash -c "cd $workdir && tar xf $sdl2_src && cd ${sdl2_src%%.tar.gz} && mkdir -p build && cd build && ../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl && make -j4 && make install"
   piho run "$image" rm -rf ${workdir}/${sdl2_src%%.tar.gz}
 }

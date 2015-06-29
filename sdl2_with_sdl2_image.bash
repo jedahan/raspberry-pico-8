@@ -38,7 +38,7 @@ piho ls | grep -q ^$image\$ && echo "[3/4] $image: found, skipping creation" || 
   piho run "$image" rm -rf "$workdir"/"${sdl2_image_src%%.tar.gz}"
 }
 
-image_old=$image; image="pico-8"
+image_old=$image; image="pico8"
 echo "[4/4] $image: compiling program"
 piho rm "$image" && piho clone "$image_old" "$image"
 piho copy "$image" "$PWD"/sdl2_image_test.cpp "$PWD"/img_test.png "$workdir"

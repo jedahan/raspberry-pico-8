@@ -6,7 +6,7 @@ piho >/dev/null || { echo "This script requires piho, install from https://githu
 workdir=/home/pi
 
 image="minimal"
-piho ls | grep ^$image\$ >/dev/null && echo "[1/4] ${image}: found, skipping creation" || {
+piho ls | grep -q ^$image\$ && echo "[1/4] ${image}: found, skipping creation" || {
   echo "[1/4] $image: Updated raspbian -cruft"
   piho create "$image"
   piho run "$image" apt-get remove -y --purge scratch pypy-upstream sonic-pi freepats libraspberrypi-doc oracle-java8-jdk wolfram-engine
@@ -17,7 +17,7 @@ piho ls | grep ^$image\$ >/dev/null && echo "[1/4] ${image}: found, skipping cre
 }
 
 image_old=$image; image="sdl2"
-piho ls | grep ^$image\$ >/dev/null && echo "[2/4] $image: found, skipping creation" || {
+piho ls | grep -q ^$image\$ && echo "[2/4] $image: found, skipping creation" || {
   echo "[2/4] $image: OpenGL ES-only version of SDL2 (v2.0.3)"
   piho clone "$image_old" "$image"
   sdl2_src="SDL2-2.0.3.tar.gz"
@@ -27,7 +27,7 @@ piho ls | grep ^$image\$ >/dev/null && echo "[2/4] $image: found, skipping creat
 }
 
 image_old=$image; image="sdl2_image"
-piho ls | grep ^$image\$ >/dev/null && echo "[3/4] $image: found, skipping creation" || {
+piho ls | grep -q ^$image\$ && echo "[3/4] $image: found, skipping creation" || {
   echo "[3/4] $image: Adding sdl2_image"
   piho clone "$image_old" "$image"
   sdl2_image_src="SDL2_image-2.0.0.tar.gz"

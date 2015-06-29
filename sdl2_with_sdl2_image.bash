@@ -6,7 +6,7 @@ piho >/dev/null || ( echo "This script requires piho, install from https://githu
 WORKDIR=/home/pi
 
 image="minimal"
-piho ls | grep $image >/dev/null && echo "$image found, going to next step" || (
+piho ls | grep '^${image}\$' >/dev/null && echo "$image found, going to next step" || (
   echo "Creating a minimal raspbian image that can build from source"
   piho ls | grep $image >/dev/null || piho create "$image"
   piho run $image apt-get remove -y --purge scratch pypy-upstream sonic-pi freepats libraspberrypi-doc oracle-java8-jdk wolfram-engine
@@ -17,7 +17,7 @@ piho ls | grep $image >/dev/null && echo "$image found, going to next step" || (
 )
 
 image_old=$image && image="sdl2"
-piho ls | grep $image >/dev/null && echo "$image found, going to next step" || (
+piho ls | grep '^${image}\$' >/dev/null && echo "$image found, going to next step" || (
   echo "Installing sdl2 with OpenGL ES support only (fullscreen)"
   piho clone $old_image $image
   local SDL2_SRC="SDL2-2.0.3.tar.gz"
@@ -27,7 +27,7 @@ piho ls | grep $image >/dev/null && echo "$image found, going to next step" || (
 )
 
 image_old=$image && image="sdl2_image"
-piho ls | grep $image >/dev/null && echo "$image found, going to net step" || (
+piho ls | grep '^${image}$' >/dev/null && echo "$image found, going to next step" || (
   echo "Installing sdl2_image"
   piho clone $old_image $image
   local SDL2_IMAGE_SRC="SDL2_image-2.0.0.tar.gz"

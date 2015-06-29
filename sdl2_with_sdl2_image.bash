@@ -7,13 +7,24 @@ workdir=/home/pi
 
 image="minimal"
 piho ls | grep -q ^$image\$ && echo "[2/5] ${image}: found, skipping creation" || {
-  echo "[1/5] $image: Updating raspbian and removing cruft"
+  echo "[0/5] $image: Updating raspbian and removing cruft"
   piho create "$image"
   piho run "$image" apt-get remove -y --purge scratch pypy-upstream sonic-pi freepats libraspberrypi-doc oracle-java8-jdk wolfram-engine
   piho run "$image" apt-get autoremove -y
   piho run "$image" apt-get update
   piho run "$image" apt-get upgrade -y
   piho run "$image" apt-get install -y build-essential libfreeimage-dev libopenal-dev libpango1.0-dev libsndfile-dev libudev-dev libasound2-dev libjpeg8-dev libtiff5-dev libwebp-dev automake
+
+  echo "[1/5] $image: configuring"
+  # set locale to en_US.UTF-8
+  piho r "$image" bash -c 'echo $0 $1 > /etc/locale.gen &&
+    DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales' en_US.UTF-8 UTF-8
+  # hide raspi-config on first boot
+  piho r "$image" bash -c 'rm -f /etc/profile.d/raspi-config.sh &&
+    sed -i /etc/inittab -e /RPICFG_TO_DISABLE/d -e "/RPICFG_TO_ENABLE/ s/^#//"'
+  # set hostname to pic8
+  piho r "$image" bash -c 'sed -i s/raspberrypi/$0/ /etc/hosts &&
+    echo $0 > /etc/hostname' pico8
 
   echo "[2/5] $image: installing dispmanx_vnc for remote"
   piho run "$image" apt-get install -y gcc-4.7 g++-4.7 libvncserver-dev libconfig++-dev
@@ -22,6 +33,8 @@ piho ls | grep -q ^$image\$ && echo "[2/5] ${image}: found, skipping creation" |
   piho run "$image" sudo update-alternatives --config gcc
   piho run "$image" git clone https://github.com/patrikolausson/dispmanx_vnc.git
   piho run "$image" bash -c "cd dispmanx_vnc && make -j4 && make install"
+
+
 }
 
 image_old=$image; image="sdl2"

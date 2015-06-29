@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-piho >/dev/null || ( echo "This script requires piho, install from https://github.com/xdissent/pihotenuse/" && exit ) 
+piho >/dev/null || { echo "This script requires piho, install from https://github.com/xdissent/pihotenuse/" && exit }
 
 WORKDIR=/home/pi
 

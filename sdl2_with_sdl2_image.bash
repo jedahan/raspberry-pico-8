@@ -28,9 +28,9 @@ piho ls | grep -q ^$image\$ && echo "[2/5] ${image}: found, skipping creation" |
 
   echo "[2/5] $image: installing dispmanx_vnc for remote"
   piho run "$image" apt-get install -y gcc-4.7 g++-4.7 libvncserver-dev libconfig++-dev
-  piho run "$image" sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
-  piho run "$image" sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
-  piho run "$image" sudo update-alternatives --config gcc /usr/bin/gcc-4.7
+  piho run "$image" update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
+  piho run "$image" update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+  piho run "$image" update-alternatives --set gcc /usr/bin/gcc-4.7
   piho run "$image" bash -c "cd $workdir && git clone https://github.com/patrikolausson/dispmanx_vnc.git"
   piho run "$image" bash -c "cd $workdir && make -j4 && cp dispmanx_vncserver /usr/local/bin"
 }
